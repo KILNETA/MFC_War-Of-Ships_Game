@@ -18,6 +18,13 @@ void WarShips::setPlace(bool place)
 	this->place = place;
 }
 
+void WarShips::setKill(bool kill)
+{
+	this->kill = kill;
+}
+
+
+
 int WarShips::GetShipID()
 {
 	return this->shipID;
@@ -35,6 +42,11 @@ int WarShips::GetCoordinate(int uId)
 bool WarShips::GetPlace()
 {
 	return this->place;
+}
+
+bool WarShips::GetKill()
+{
+	return this->kill;
 }
 
 CString WarShips::GetShipName()

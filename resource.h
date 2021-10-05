@@ -243,6 +243,10 @@
 #define IDC_Numbers_A19                 30025
 #define IDC_Numbers_A20                 30026
 #define IDC_Direction                   30100
+#define IDC_ENEMY_shoot                 30200
+#define IDC_ENEMY_kill                  30201
+#define IDC_MY_shoot                    30202
+#define IDC_MY_kill                     30203
 #define ID_40001                        40001
 
 // Next default values for new objects
@@ -251,7 +255,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        104
 #define _APS_NEXT_COMMAND_VALUE         40002
-#define _APS_NEXT_CONTROL_VALUE         1115
+#define _APS_NEXT_CONTROL_VALUE         1119
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

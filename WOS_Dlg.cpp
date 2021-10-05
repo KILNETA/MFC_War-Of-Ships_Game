@@ -60,7 +60,7 @@ void WOS_Dlg::ChooseAndTakeback(UINT uId , vector<WarShips>& warShips, vector<Bu
 	//把該船所站之格子還原參數 /並將船艦佔有該格的資料去除
 	for (int n = 0; n < warShips[shipID % 10].GetCoordinate_Size(); n++){
 		int Coordinate = warShips[shipID % 10].GetCoordinate(n);
-		((CButton*)GetDlgItem(Coordinate))->SetWindowText(L"");
+		((CButton*)GetDlgItem(Coordinate))->SetWindowText(_T(""));
 		block[Coordinate%1000].SetShipID(0);
 
 		warShips[shipID % 10].setCoordinate(n, NULL);
@@ -96,6 +96,137 @@ void WOS_Dlg::PlaceEnemyShips()
 	}
 }
 
+
+
+//開炮
+int WOS_Dlg::Fire(UINT uId, vector<WarShips>& warShips, vector<Buttons_Data>& block, int shootStatic, int killStatic)
+{
+	if (block[uId % 100].GiveShipID() != NULL){//該處有船
+		WOS_Dlg::HitShip(uId, block[uId % 100].GiveShipID(), warShips); //擊中船
+		((CButton*)GetDlgItem(uId))->SetWindowText(_T("Ｘ"));
+		//output //公告擊中+船的名子
+		GetDlgItem(shootStatic)->SetWindowText(L"擊中" + warShips[block[uId % 100].GiveShipID() % 10].GetShipName() +
+																						 L"  "+ block[uId % 100].GetButtonsName());
+		//檢查船隻沉沒
+		if (WOS_Dlg::CheckShipDied(block[uId % 100].GiveShipID(), warShips, killStatic)){
+			return 1;
+		}else{
+			return 2;
+	}	}
+	else {//該處沒有船
+		((CButton*)GetDlgItem(uId))->SetWindowText(_T("。"));
+
+		GetDlgItem(shootStatic)->SetWindowText(L"未擊中船隻  " + block[uId % 100].GetButtonsName());
+		return 0;
+	}
+}
+
+//擊中敵艦
+void WOS_Dlg::HitShip(UINT uId, int shipID, vector<WarShips>& warShips)
+{
+	for(int n = 0; n < warShips[shipID % 10].GetCoordinate_Size(); n++)
+	{
+		if (warShips[shipID % 10].GetCoordinate(n)== uId){
+			warShips[shipID % 10].setCoordinate(n,NULL);
+		}else{}
+	}
+}
+
+//檢查船隻沉沒
+bool WOS_Dlg::CheckShipDied(int shipID, vector<WarShips>& warShips, int killStatic)
+{
+	for (int n = 0; n < warShips[shipID % 10].GetCoordinate_Size(); n++){
+		if (warShips[shipID % 10].GetCoordinate(n) != NULL) {//未被擊沉
+			GetDlgItem(killStatic)->SetWindowText(L"");
+			return false;
+	}	}
+	warShips[shipID % 10].setKill(true);
+	//output 船隻按鈕反黑 投放公告
+	((CButton*)GetDlgItem(shipID))->EnableWindow(FALSE); 
+	GetDlgItem(killStatic)->SetWindowText(warShips[shipID % 10].GetShipName()+ L"已被完全擊沉");
+	return true;
+}
+
+//(AI開火)紀錄上次攻擊 + 攻擊
+void WOS_Dlg::RecordLastAttack(int aiUId)
+{
+	((CButton*)GetDlgItem(aiUId))->EnableWindow(FALSE);
+	switch (WOS_Dlg::Fire(aiUId, this->MyWarShips, this->MyBlock, IDC_ENEMY_shoot, IDC_MY_kill)) {
+	case 0:
+		return; break;
+	case 1:
+		this->aiLastAttack = NULL;
+		return; break;
+	case 2:
+		this->aiLastAttack = aiUId;
+		return; break;
+	}
+}
+
+//(AI開火)敵方攻擊
+void WOS_Dlg::EnemyAttack(){
+	bool fire = false;
+	srand(time(NULL));
+	while (!fire){
+		if (this->aiLastAttack != NULL){
+			for (int n = 0; n < 5; n++) {
+				switch (n)
+				{
+				case 0: if (this->aiLastAttack - 1 >= (this->aiLastAttack / 10) * 10 && ((CButton*)GetDlgItem(this->aiLastAttack - 1))->IsWindowEnabled() == TRUE) {
+					WOS_Dlg::RecordLastAttack(this->aiLastAttack - 1); fire = true;
+				} break;
+				case 1: if (this->aiLastAttack - 10 >= 2000 && ((CButton*)GetDlgItem(this->aiLastAttack - 10))->IsWindowEnabled() == TRUE) {
+					WOS_Dlg::RecordLastAttack(this->aiLastAttack - 10); fire = true;
+				} break;
+				case 2: if (this->aiLastAttack + 1 <= ((this->aiLastAttack / 10) * 10) + 9 && ((CButton*)GetDlgItem(this->aiLastAttack + 1))->IsWindowEnabled() == TRUE) {
+					WOS_Dlg::RecordLastAttack(this->aiLastAttack + 1); fire = true;
+				} break;
+				case 3: if (this->aiLastAttack + 10 <= 2099 && ((CButton*)GetDlgItem(this->aiLastAttack + 10))->IsWindowEnabled() == TRUE) {
+					WOS_Dlg::RecordLastAttack(this->aiLastAttack + 10); fire = true;
+				} break;
+				case 4:
+					this->aiLastAttack = NULL;
+					break;
+				}
+				if(fire){break;}
+			}
+		}else{
+			int aiUId = (rand() % 100) + 2000;
+			if (((CButton*)GetDlgItem(aiUId))->IsWindowEnabled() == TRUE) {
+				WOS_Dlg::RecordLastAttack(aiUId);
+				fire = true;
+			}
+		}
+	}
+}
+
+
+bool WOS_Dlg::CheckGameOver()
+{
+	bool gameOver;
+	//我方
+	if (this->MyWarShips[0].GetKill()&& 
+		this->MyWarShips[1].GetKill()&&
+		this->MyWarShips[2].GetKill()&&
+		this->MyWarShips[3].GetKill()&&
+		this->MyWarShips[4].GetKill())
+	{	
+		/*公告*/
+		return true;
+	}
+	//敵人
+	if (this->EnemyWarShips[0].GetKill() &&
+		this->EnemyWarShips[1].GetKill() &&
+		this->EnemyWarShips[2].GetKill() &&
+		this->EnemyWarShips[3].GetKill() &&
+		this->EnemyWarShips[4].GetKill())
+	{
+		/*公告*/
+		return true;
+	}
+	return false;
+}
+
 ///////////////////////////////////////////////////////////////////////////
 ///                     Public    Function
 ///////////////////////////////////////////////////////////////////////////
@@ -126,7 +257,7 @@ BOOL WOS_Dlg::PreTranslateMessage(MSG* pMsg)
 	if (pMsg->message == WM_KEYDOWN)
 	{
 		if (pMsg->wParam ==114 || pMsg->wParam == 82 ){ //按下R/r鍵
-			this->direction ? GetDlgItem(IDC_Direction)->SetWindowText(_T("朝向(&R): 垂直")) : GetDlgItem(IDC_Direction)->SetWindowText(_T("朝向(&R): 水平"));
+			this->direction ? GetDlgItem(IDC_Direction)->SetWindowText(L"朝向(&R): 垂直") : GetDlgItem(IDC_Direction)->SetWindowText(L"朝向(&R): 水平");
 			this->direction = this->direction ? false  : true;
 			return TRUE;
 		}
@@ -160,7 +291,8 @@ END_MESSAGE_MAP()
 afx_msg void WOS_Dlg::ENEMY_ButtonClicked(UINT uId)
 {
 	((CButton*)GetDlgItem(uId))->EnableWindow(FALSE);
-	((CButton*)GetDlgItem(uId))->SetWindowText(L"Ｘ");
+	WOS_Dlg::Fire(uId, this->EnemyWarShips, this->EnemyBlock , IDC_MY_shoot, IDC_ENEMY_kill);
+	WOS_Dlg::EnemyAttack();
 	//CWnd* GetDlgItem(int nID) const;
 }
 
@@ -198,10 +330,11 @@ afx_msg void WOS_Dlg::Game_Start()
 {
 	for (int n = 0; n<5; n++) {
 		if (!this->MyWarShips[n].GetPlace()) {
-			AfxMessageBox(_T("艦船未佈署完畢"));
+			AfxMessageBox(L"艦船未佈署完畢");
 			return;
 	}	}
 
+	((CButton*)GetDlgItem(IDC_GAME_START))->EnableWindow(FALSE);
 	this->gameStart = true;
 	WOS_Dlg::PlaceEnemyShips();
 

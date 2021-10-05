@@ -21,6 +21,7 @@ private: //私有
 	vector<Buttons_Data> EnemyBlock; //敵方海格
 	int choose=NULL;//當前選擇
 	bool direction = true;
+	int aiLastAttack = NULL;
 
 	//轉換選擇
 	void ReplaceChoose(UINT uId);
@@ -32,6 +33,23 @@ private: //私有
 	void SetChooseInCoordinate(UINT uId);
 	//佈署敵方艦船
 	void PlaceEnemyShips();
+
+	//開炮
+	int Fire(UINT uId, vector<WarShips>& warShips, vector<Buttons_Data>& block, int shootStatic, int killStatic);
+	//擊中敵艦
+	void HitShip(UINT uId, int shipID, vector<WarShips>& warShips);
+	//檢查船隻沉沒
+	bool CheckShipDied(int shipID, vector<WarShips>& warShips , int killStatic);
+
+	//(AI開火)紀錄上次攻擊 + 攻擊
+	void RecordLastAttack(int aiUId);
+	//(AI開火敵方開火
+	void EnemyAttack();
+
+	//檢查遊戲是否結束
+	bool CheckGameOver();
+
+	
 public://公有
 
 	//操作介面信息響應
