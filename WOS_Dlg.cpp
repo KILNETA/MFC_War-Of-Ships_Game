@@ -103,103 +103,141 @@ int WOS_Dlg::Fire(UINT uId, vector<WarShips>& warShips, vector<Buttons_Data>& bl
 {
 	if (block[uId % 100].GiveShipID() != NULL){//該處有船
 		WOS_Dlg::HitShip(uId, block[uId % 100].GiveShipID(), warShips); //擊中船
-		((CButton*)GetDlgItem(uId))->SetWindowText(_T("Ｘ"));
-		//output //公告擊中+船的名子
+		//((CButton*)GetDlgItem(uId))->SetWindowText(_T("Ｘ")); //設置擊中標示
+		//output //公告擊中+船的名子+座標
 		GetDlgItem(shootStatic)->SetWindowText(L"擊中" + warShips[block[uId % 100].GiveShipID() % 10].GetShipName() +
 																						 L"  "+ block[uId % 100].GetButtonsName());
 		//檢查船隻沉沒
 		if (WOS_Dlg::CheckShipDied(block[uId % 100].GiveShipID(), warShips, killStatic)){
-			return 1;
+			return 1; //回報擊中+已擊沉
 		}else{
-			return 2;
+			return 2; //回報擊中+未擊沉
 	}	}
 	else {//該處沒有船
-		((CButton*)GetDlgItem(uId))->SetWindowText(_T("。"));
+		//((CButton*)GetDlgItem(uId))->SetWindowText(_T("。"));//設置落彈標示
 
+		//公告未擊中+座標
 		GetDlgItem(shootStatic)->SetWindowText(L"未擊中船隻  " + block[uId % 100].GetButtonsName());
-		return 0;
-	}
-}
+		return 0; //未擊中
+}	}
 
 //擊中敵艦
 void WOS_Dlg::HitShip(UINT uId, int shipID, vector<WarShips>& warShips)
 {
+	//將該船的座標紀錄刪除
 	for(int n = 0; n < warShips[shipID % 10].GetCoordinate_Size(); n++)
 	{
 		if (warShips[shipID % 10].GetCoordinate(n)== uId){
 			warShips[shipID % 10].setCoordinate(n,NULL);
-		}else{}
-	}
-}
+}	}	}
 
 //檢查船隻沉沒
 bool WOS_Dlg::CheckShipDied(int shipID, vector<WarShips>& warShips, int killStatic)
 {
+	//檢查該船是否有座標未被擊中 //檢測到就直接回報未被擊沉
 	for (int n = 0; n < warShips[shipID % 10].GetCoordinate_Size(); n++){
 		if (warShips[shipID % 10].GetCoordinate(n) != NULL) {//未被擊沉
 			GetDlgItem(killStatic)->SetWindowText(L"");
-			return false;
+			return false; //回報未被擊沉
 	}	}
+	//設置該船已沉沒
 	warShips[shipID % 10].setKill(true);
 	//output 船隻按鈕反黑 投放公告
 	((CButton*)GetDlgItem(shipID))->EnableWindow(FALSE); 
 	GetDlgItem(killStatic)->SetWindowText(warShips[shipID % 10].GetShipName()+ L"已被完全擊沉");
-	return true;
+	return true; //回報已擊沉
 }
 
+
 //(AI開火)紀錄上次攻擊 + 攻擊
-void WOS_Dlg::RecordLastAttack(int aiUId)
+bool WOS_Dlg::RecordLastAttack(int aiUId, bool& nextFire, int mode)
 {
 	((CButton*)GetDlgItem(aiUId))->EnableWindow(FALSE);
 	switch (WOS_Dlg::Fire(aiUId, this->MyWarShips, this->MyBlock, IDC_ENEMY_shoot, IDC_MY_kill)) {
-	case 0:
-		return; break;
-	case 1:
+	case 0: //未擊中
+		return false;
+	case 1:  //回報擊中+已擊沉
 		this->aiLastAttack = NULL;
-		return; break;
-	case 2:
-		this->aiLastAttack = aiUId;
-		return; break;
+		nextFire = false;
+		return true;
+	case 2: //回報擊中+未擊沉
+		mode ? 0 : this->aiLastAttack = aiUId; nextFire = true; return true;
 	}
 }
 
 //(AI開火)敵方攻擊
 void WOS_Dlg::EnemyAttack(){
-	bool fire = false;
-	srand(time(NULL));
+	static bool nextFire = false;  //是否為第二次發射
+	static int aiDirection = 0; //ai在第二發命中之後所判斷該船隻的方向
+	bool fire = false; //是否開火了 脫離無限嘗試迴圈
+	srand(time(NULL)); //採集即刻時間作為隨機數依據
 	while (!fire){
-		if (this->aiLastAttack != NULL){
-			for (int n = 0; n < 5; n++) {
-				switch (n)
-				{
-				case 0: if (this->aiLastAttack - 1 >= (this->aiLastAttack / 10) * 10 && ((CButton*)GetDlgItem(this->aiLastAttack - 1))->IsWindowEnabled() == TRUE) {
-					WOS_Dlg::RecordLastAttack(this->aiLastAttack - 1); fire = true;
-				} break;
-				case 1: if (this->aiLastAttack - 10 >= 2000 && ((CButton*)GetDlgItem(this->aiLastAttack - 10))->IsWindowEnabled() == TRUE) {
-					WOS_Dlg::RecordLastAttack(this->aiLastAttack - 10); fire = true;
-				} break;
-				case 2: if (this->aiLastAttack + 1 <= ((this->aiLastAttack / 10) * 10) + 9 && ((CButton*)GetDlgItem(this->aiLastAttack + 1))->IsWindowEnabled() == TRUE) {
-					WOS_Dlg::RecordLastAttack(this->aiLastAttack + 1); fire = true;
-				} break;
-				case 3: if (this->aiLastAttack + 10 <= 2099 && ((CButton*)GetDlgItem(this->aiLastAttack + 10))->IsWindowEnabled() == TRUE) {
-					WOS_Dlg::RecordLastAttack(this->aiLastAttack + 10); fire = true;
-				} break;
-				case 4:
-					this->aiLastAttack = NULL;
-					break;
-				}
-				if(fire){break;}
-			}
-		}else{
-			int aiUId = (rand() % 100) + 2000;
+		if (this->aiLastAttack == NULL) { //盲猜落點//第一次射擊
+			int aiUId = (rand() % 100) + 2000; //設定隨機變數
 			if (((CButton*)GetDlgItem(aiUId))->IsWindowEnabled() == TRUE) {
-				WOS_Dlg::RecordLastAttack(aiUId);
+				WOS_Dlg::RecordLastAttack(aiUId, nextFire, 0);
 				fire = true;
 			}
 		}
+		else { //已知第一次的落點 
+			//先設定個嘗試方向的計算結果 與各方向之最大.小邊界
+			int newAttack[4] = { -1 , 1 , -10 , 10 };
+			int boundary[4] = { (this->aiLastAttack / 10) * 10 ,((this->aiLastAttack / 10) * 10) + 9 ,2000 ,2099 };
+
+			if(aiDirection==0){ //基於第一次落點 進行船隻定位 //如果尚未確定方向則執行
+				for (int n = 0; n < 4; n++) { //對周邊四個方向嘗試射擊 //第二次射擊
+					//確認座標無溢出 且 該按鈕未被射擊過
+					if (this->aiLastAttack+newAttack[n] >= boundary[n] && ((CButton*)GetDlgItem(this->aiLastAttack+newAttack[n]))->IsWindowEnabled() == TRUE) {
+						if (WOS_Dlg::RecordLastAttack(this->aiLastAttack+newAttack[n], nextFire, 0)) {//(AI開火)紀錄上次攻擊 + 攻擊
+							aiDirection = n < 2 ? 1 : 3; //紀錄方向
+						}
+						fire = true; //已成功發射
+						return;
+					}
+					if (this->aiLastAttack+newAttack[n] <= boundary[n] && ((CButton*)GetDlgItem(this->aiLastAttack+newAttack[n]))->IsWindowEnabled() == TRUE) {
+						if (WOS_Dlg::RecordLastAttack(this->aiLastAttack+newAttack[n], nextFire, 0)) {//(AI開火)紀錄上次攻擊 + 攻擊
+							aiDirection = n < 2 ? 2 : 4; //紀錄方向
+						}
+						fire = true; //已成功發射
+						return;
+					}
+				}
+			}
+			else { //已定位成功
+				if (nextFire) {
+					if (this->aiLastAttack+newAttack[aiDirection-1] >= boundary[aiDirection-1 ]&& ((CButton*)GetDlgItem(this->aiLastAttack+newAttack[aiDirection-1]))->IsWindowEnabled() == TRUE) {
+						WOS_Dlg::RecordLastAttack(this->aiLastAttack+newAttack[aiDirection-1], nextFire, 0); //(AI開火)紀錄上次攻擊 + 攻擊
+						fire = true; //已成功發射
+						return;
+					}
+				}
+			}
+			for (int m = 1; m <=5; m++) {
+				if (aiDirection != 0) {
+					if (aiDirection==1 || aiDirection == 2){
+						if (m <= 4 && ((CButton*)GetDlgItem(this->aiLastAttack + (newAttack[2 - aiDirection] * m)))->IsWindowEnabled() == TRUE) {
+							WOS_Dlg::RecordLastAttack(this->aiLastAttack+newAttack[2-aiDirection] * m, nextFire, 1); fire = true;
+							return;
+						}
+					}else {
+						if (aiDirection == 3 || aiDirection == 4) {
+							if (m <= 4 && ((CButton*)GetDlgItem(this->aiLastAttack + (newAttack[6 - aiDirection] * m)))->IsWindowEnabled() == TRUE) {
+								WOS_Dlg::RecordLastAttack(this->aiLastAttack+(newAttack[6 -aiDirection ] * m), nextFire, 1); fire = true;
+								return;
+							}
+						}
+					}
+				}
+				if (m == 5) {
+					this->aiLastAttack = NULL;
+					aiDirection = 0;
+					return;
+				}
+			}
+			if (fire) { return; }
+		}
 	}
 }
-
 
 bool WOS_Dlg::CheckGameOver()
 {

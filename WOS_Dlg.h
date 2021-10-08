@@ -42,7 +42,7 @@ private: //私有
 	bool CheckShipDied(int shipID, vector<WarShips>& warShips , int killStatic);
 
 	//(AI開火)紀錄上次攻擊 + 攻擊
-	void RecordLastAttack(int aiUId);
+	bool RecordLastAttack(int aiUId, bool& nextFire, int mode);
 	//(AI開火敵方開火
 	void EnemyAttack();
 
