@@ -21,7 +21,6 @@ private: //私有
 	vector<Buttons_Data> EnemyBlock; //敵方海格
 	int choose=NULL;//當前選擇
 	bool direction = true;
-	int aiLastAttack = NULL;
 
 	//轉換選擇
 	void ReplaceChoose(UINT uId);
@@ -42,13 +41,15 @@ private: //私有
 	bool CheckShipDied(int shipID, vector<WarShips>& warShips , int killStatic);
 
 	//(AI開火)紀錄上次攻擊 + 攻擊
-	bool RecordLastAttack(int aiUId, bool& nextFire, int mode);
+	bool RecordLastAttack(int aiUId, int& aiLastAttack, bool& nextFire, int& aiDirection, int mode);
 	//(AI開火敵方開火
 	void EnemyAttack();
 
 	//檢查遊戲是否結束
 	bool CheckGameOver();
 
+	//重置遊戲
+	void reloadGame();
 	
 public://公有
 

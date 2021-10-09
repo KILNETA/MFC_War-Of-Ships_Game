@@ -293,10 +293,10 @@ BEGIN
     PUSHBUTTON      "",IDC_MY_J9,168,198,18,18
     PUSHBUTTON      "",IDC_MY_J10,186,198,18,18
     LTEXT           "朝向(&R): 水平",IDC_Direction,268,101,48,8
-    CTEXT           "D-4  擊中DD",IDC_MY_shoot,24,222,180,8
-    CTEXT           "D-4  擊中DD",IDC_ENEMY_shoot,342,222,180,8
-    CTEXT           "DD沉沒",IDC_ENEMY_kill,342,240,180,8
-    CTEXT           "DD沉沒",IDC_MY_kill,24,240,180,8
+    CTEXT           "",IDC_MY_shoot,24,222,180,8
+    CTEXT           "",IDC_ENEMY_shoot,342,222,180,8
+    CTEXT           "",IDC_ENEMY_kill,342,240,180,8
+    CTEXT           "",IDC_MY_kill,24,240,180,8
 END
 
 
