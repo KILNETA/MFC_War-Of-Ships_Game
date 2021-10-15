@@ -310,7 +310,7 @@ BEGIN
     LTEXT           "-------------------------------------------------------------------------------------------------------",IDC_About_text3,12,132,276,8
     CTEXT           "\nAbout War Of Ships\n\n War Of Ships is written and published by KILNETA.\n Copyright KILNETA - 2021. All right reserved.\n\n--------------------------------------------------------------------------------",IDC_About_text2,144,12,150,66,NOT WS_GROUP
     LTEXT           "Github¡G",IDC_About_text4,12,144,29,8
-    LTEXT           "https://github.com/KILNETA",IDC_About_text5,44,144,95,8
+    LTEXT           "https://github.com/KILNETA",IDC_About_text5,41,144,95,8
 END
 
 
@@ -336,6 +336,7 @@ BEGIN
         RIGHTMARGIN, 302
         TOPMARGIN, 7
         BOTTOMMARGIN, 169
+        HORZGUIDE, 152
     END
 END
 #endif    // APSTUDIO_INVOKED
