@@ -1,4 +1,5 @@
 #include "WOS_Dlg.h"
+#include "WOS_AboutDlg.h"
 
 #include <stdlib.h> /* 亂數相關函數 */
 #include <time.h>   /* 時間相關函數 */
@@ -47,7 +48,7 @@ void WOS_Dlg::PlaceShip(UINT uId, int direction, int _choose, vector<WarShips>& 
 			AfxMessageBox(_T("位置不足"));
 }	}	}
 
-//選擇與把船拿走
+//選擇與把船拿走 down
 void WOS_Dlg::ChooseAndTakeback(UINT uId , vector<WarShips>& warShips, vector<Buttons_Data>& block)
 {
 	//該格所在之艦船ID
@@ -80,7 +81,7 @@ void WOS_Dlg::SetChooseInCoordinate(UINT uId)
 	return;
 }
 
-//佈署敵方艦船
+//佈署敵方艦船 down
 void WOS_Dlg::PlaceEnemyShips()
 {
 	//亂數設置
@@ -98,7 +99,7 @@ void WOS_Dlg::PlaceEnemyShips()
 
 
 
-//開炮
+//開炮 down
 int WOS_Dlg::Fire(UINT uId, vector<WarShips>& warShips, vector<Buttons_Data>& block, int shootStatic, int killStatic)
 {
 	if (block[uId % 100].GiveShipID() != NULL){//該處有船
@@ -121,7 +122,7 @@ int WOS_Dlg::Fire(UINT uId, vector<WarShips>& warShips, vector<Buttons_Data>& bl
 		return 0; //未擊中
 }	}
 
-//擊中敵艦
+//擊中敵艦 down
 void WOS_Dlg::HitShip(UINT uId, int shipID, vector<WarShips>& warShips)
 {
 	//將該船的座標紀錄刪除
@@ -131,7 +132,7 @@ void WOS_Dlg::HitShip(UINT uId, int shipID, vector<WarShips>& warShips)
 			warShips[shipID % 10].setCoordinate(n,NULL);
 }	}	}
 
-//檢查船隻沉沒
+//檢查船隻沉沒 down
 bool WOS_Dlg::CheckShipDied(int shipID, vector<WarShips>& warShips, int killStatic)
 {
 	//檢查該船是否有座標未被擊中 //檢測到就直接回報未被擊沉
@@ -140,7 +141,7 @@ bool WOS_Dlg::CheckShipDied(int shipID, vector<WarShips>& warShips, int killStat
 			GetDlgItem(killStatic)->SetWindowText(L"");
 			return false; //回報未被擊沉
 	}	}
-	//設置該船已沉沒
+	//設置該船已沉沒 down
 	warShips[shipID % 10].setKill(true);
 	//output 船隻按鈕反黑 投放公告
 	((CButton*)GetDlgItem(shipID))->EnableWindow(FALSE); 
@@ -149,7 +150,7 @@ bool WOS_Dlg::CheckShipDied(int shipID, vector<WarShips>& warShips, int killStat
 }
 
 
-//(AI開火)紀錄上次攻擊 + 攻擊
+//(AI開火)紀錄上次攻擊 + 攻擊 down
 bool WOS_Dlg::RecordLastAttack(int aiUId, int &aiLastAttack, bool& nextFire , int &aiDirection, int mode)
 {
 	((CButton*)GetDlgItem(aiUId))->EnableWindow(FALSE);
@@ -170,7 +171,7 @@ bool WOS_Dlg::RecordLastAttack(int aiUId, int &aiLastAttack, bool& nextFire , in
 	}
 }
 
-//(AI開火)敵方攻擊
+//(AI開火)敵方攻擊 down
 void WOS_Dlg::EnemyAttack(){
 
 	static bool nextFire = false;  //是否為第二次發射
@@ -236,6 +237,7 @@ void WOS_Dlg::EnemyAttack(){
 			if (fire) { return; }
 	}	}	}
 
+//檢查遊戲是否結束 down
 bool WOS_Dlg::CheckGameOver()
 {
 	bool gameOver;
@@ -323,6 +325,8 @@ BEGIN_MESSAGE_MAP(WOS_Dlg, CDialog)
 	ON_COMMAND( IDC_GAME_START, Game_Start)
 	//右上角(X)關閉窗口
 	ON_COMMAND(WM_DESTROY, Exit_Window)
+	//關於介面呼叫
+	ON_COMMAND(IDM_ABOUT, ABOUT)
 
 END_MESSAGE_MAP()
 
@@ -396,3 +400,15 @@ afx_msg void WOS_Dlg::Exit_Window()
 	else {
 		DestroyWindow();
 }	}
+
+INT CALLBACK DlgProc(HWND hwndlg, UINT msgID, WPARAM wParam, LPARAM lParam)
+{
+	return FALSE;
+}
+
+afx_msg void WOS_Dlg::ABOUT()
+{
+	WOS_AboutDlg* AboutPdlg = new WOS_AboutDlg;
+	AboutPdlg->Create(IDD_ABOUT);
+	AboutPdlg->ShowWindow(SW_SHOW);
+}

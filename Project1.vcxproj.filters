@@ -36,6 +36,9 @@
     <ClInclude Include="WarShips.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="WOS_AboutDlg.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WOS_Dlg.cpp">
@@ -50,10 +53,21 @@
     <ClCompile Include="WarShips.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="WOS_AboutDlg.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
       <Filter>資源檔</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap1.bmp">
+      <Filter>資源檔</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

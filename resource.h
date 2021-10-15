@@ -4,6 +4,8 @@
 //
 #define IDD_GAME_WINDOW                 101
 #define IDR_MENU                        103
+#define IDD_ABOUT                       104
+#define IDB_BITMAP1                     113
 #define IDC_ENEMY_A1                    1000
 #define IDC_ENEMY_A2                    1001
 #define IDC_ENEMY_A3                    1002
@@ -248,14 +250,23 @@
 #define IDC_MY_shoot                    30202
 #define IDC_MY_kill                     30203
 #define ID_40001                        40001
+#define IDM_ABOUT                       40002
+#define IDC_Github_Head                 50000
+#define IDC_STATIC_Github               50001
+#define IDC_About_text1                 50002
+#define IDC_About_text2                 50003
+#define IDC_About_text3                 50004
+#define IDC_MFCLINK1                    50005
+#define IDC_About_text4                 50006
+#define IDC_About_text5                 50008
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        104
-#define _APS_NEXT_COMMAND_VALUE         40002
-#define _APS_NEXT_CONTROL_VALUE         1119
+#define _APS_NEXT_RESOURCE_VALUE        115
+#define _APS_NEXT_COMMAND_VALUE         40003
+#define _APS_NEXT_CONTROL_VALUE         1127
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -24,17 +24,25 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="WarShips.h" />
     <ClInclude Include="Windows7_Style.h" />
+    <ClInclude Include="WOS_AboutDlg.h" />
     <ClInclude Include="WOS_App.h" />
     <ClInclude Include="WOS_Dlg.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buttons_Data.cpp" />
     <ClCompile Include="WarShips.cpp" />
+    <ClCompile Include="WOS_AboutDlg.cpp" />
     <ClCompile Include="WOS_App.cpp" />
     <ClCompile Include="WOS_Dlg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="bitmap1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
