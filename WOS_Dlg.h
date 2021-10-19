@@ -69,9 +69,12 @@ public://公有
 	afx_msg void MY_WarShipClicked(UINT   uId);
 	//遊戲開始 function
 	afx_msg void Game_Start();
-	//遊戲開始 function
+	//右上角(X)關閉窗口
 	afx_msg void Exit_Window();
+
 
 	//關於介面呼叫
 	afx_msg void ABOUT();
+	//說明介面呼叫
+	afx_msg void ILLUSTRATE();
 };

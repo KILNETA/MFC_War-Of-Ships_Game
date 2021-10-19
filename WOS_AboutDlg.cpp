@@ -8,7 +8,7 @@ BOOL WOS_AboutDlg::OnInitDialog()
 
 	CStatic* pWnd = (CStatic*)GetDlgItem(IDC_Github_Head);
 	CImage image;
-	image.Load(_T("Pictures\\47145154.png"));
+	image.Load(_T("Pictures\\Github_Head.png"));
 	HBITMAP hBmp = image.Detach();
 
 	pWnd->SetBitmap(hBmp);
@@ -26,6 +26,8 @@ BEGIN_MESSAGE_MAP(WOS_AboutDlg, CDialog)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONUP()
 	ON_WM_CTLCOLOR()
+	//右上角(X)關閉窗口
+	ON_COMMAND(WM_DESTROY, Exit_Window)
 
 END_MESSAGE_MAP()
 
@@ -61,4 +63,11 @@ HBRUSH WOS_AboutDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 
 	return hbr;
+}
+
+//右上角(X)關閉窗口
+afx_msg void WOS_AboutDlg::Exit_Window()
+{
+	DestroyWindow();
+	delete this;
 }

@@ -313,6 +313,43 @@ BEGIN
     LTEXT           "https://github.com/KILNETA",IDC_About_text5,41,144,95,8
 END
 
+IDD_ILLUSTRATE_Main DIALOGEX 0, 0, 309, 188
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "War Of Ships 遊戲說明"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "下一頁",IDC_ill_botton1_2,252,168,50,14
+    PUSHBUTTON      "上一頁",IDC_ill_botton1_1,192,168,50,14,WS_DISABLED
+END
+
+IDD_ILLUSTRATE_Main_page3 DIALOGEX 0, 0, 309, 164
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "提示與祕訣-----------------------------------------------------\n◆　如何確保淨空並搜索敵方戰艦\n　　西洋棋盤式射擊法：每次發射都間隔1格，每換一列即交錯發射，即可確保該區域有無戰艦。\n　　一直無擊中敵方戰艦？可以對較大區域且尚無發射過的海格進行嘗試，有較大機率擊中敵方戰艦。\n\n",IDC_ill_text7,12,6,276,54
+    LTEXT           "◆　如何快速擊沉敵方戰艦\n　　在發現擊中敵方艦艇後，可於下一回合對該擊中點之四周進行嘗試，直到再次擊中敵方同一艘艦艇，並判定該船隻朝向後進行有目的性的精準打擊。\n\n◆　如何得知敵方艦艇現況\n　　您可以在打擊中敵方戰艦時於我方海域下提示""所命中之戰艦種類""，若該船艦被擊沉則於敵方海域下方提示""被擊沉之戰艦種類""。\n　　亦可於遊戲板面中央部分的""戰艦狀態面板""可得知雙方尚存活之戰艦種類。",IDC_ill_text8,12,60,282,72
+END
+
+IDD_ILLUSTRATE_Main_page1 DIALOGEX 0, 0, 309, 168
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "戰艦介紹-----------------------------------------------------\n　　雙方皆擁有五艘戰艦，且皆部署於該方海域。\n　　戰艦簡介如下：\n\n　ＣＶ　航空母艦　佔1x5格\n　ＢＢ　戰列艦　　佔1x4格\n　ＣＬ　巡洋艦　　佔1x3格\n　ＤＤ　驅逐艦　　佔1x3格\n　ＰＢ　巡邏艦　　佔1x2格",IDC_ill_text2,12,90,180,72
+    LTEXT           "War Of Ships (Battleship)\n\n遊戲目標-----------------------------------------------------\n　　最先擊沉敵方所有艦艇者，取得該局勝利。\n\n基本操作-----------------------------------------------------\n\n　左鍵 點選操作\n　　Ｒ 切換放置方向\n　　Ｔ 取消戰艦選取",IDC_ill_text1,12,6,180,84
+    CONTROL         "",IDC_ill_photo1,"Static",SS_BITMAP | SS_SUNKEN,192,24,16,14
+    LTEXT           "^ 範例圖示",IDC_ill_text3,252,132,45,8
+END
+
+IDD_ILLUSTRATE_Main_page2 DIALOGEX 0, 0, 309, 168
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "遊戲玩法-----------------------------------------------------\n本遊戲採回合制攻防。\n\n◆ 攻方可發射一枚砲彈至敵方海域，已被砲彈擊中之海格，將無法再次攻擊，並會記上相對應之記號。\n◆ 守方回報(有無擊中戰艦、擊中戰艦種類、是否擊沉該戰艦)資訊給予對方。\n◆ 攻守交換。\n\n直到其中一方完全擊沉對手之所有戰艦則獲勝。",IDC_ill_text5,12,78,180,90
+    LTEXT           "部署艦艇-----------------------------------------------------\n　　在遊戲開始前，由雙方部署各自船艦於自方海域，雙方全數戰艦均部署完畢後即可開始遊戲，遊戲開始後則不得再更改船艦位置。\n\n　　提示：船艦部屬均由船首為基準點\n　　　　水平-船首靠左\n　　　　垂直-船首靠上",IDC_ill_text4,12,6,180,72
+    CONTROL         "",IDC_ill_photo2,"Static",SS_BITMAP | SS_SUNKEN,192,36,16,14
+    LTEXT           "^ 船首基準點 釋例",IDC_ill_text6,228,132,69,8
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -338,6 +375,38 @@ BEGIN
         BOTTOMMARGIN, 169
         HORZGUIDE, 152
     END
+
+    IDD_ILLUSTRATE_Main, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 181
+    END
+
+    IDD_ILLUSTRATE_Main_page3, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 157
+    END
+
+    IDD_ILLUSTRATE_Main_page1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 161
+    END
+
+    IDD_ILLUSTRATE_Main_page2, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 161
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -357,6 +426,26 @@ BEGIN
     0
 END
 
+IDD_ILLUSTRATE_Main AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_ILLUSTRATE_Main_page3 AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_ILLUSTRATE_Main_page1 AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_ILLUSTRATE_Main_page2 AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -367,6 +456,7 @@ IDR_MENU MENU
 BEGIN
     POPUP "說明(&H)"
     BEGIN
+        MENUITEM "檢視說明(&V)",                    IDM_ILLUSTRATE
         MENUITEM "關於(&A)",                      IDM_ABOUT
     END
 END

@@ -1,5 +1,6 @@
 #include "WOS_Dlg.h"
 #include "WOS_AboutDlg.h"
+#include "WOS_IllustrateDlg.h"
 
 #include <stdlib.h> /* 亂數相關函數 */
 #include <time.h>   /* 時間相關函數 */
@@ -327,6 +328,8 @@ BEGIN_MESSAGE_MAP(WOS_Dlg, CDialog)
 	ON_COMMAND(WM_DESTROY, Exit_Window)
 	//關於介面呼叫
 	ON_COMMAND(IDM_ABOUT, ABOUT)
+	//說明介面呼叫
+	ON_COMMAND(IDM_ILLUSTRATE, ILLUSTRATE)
 
 END_MESSAGE_MAP()
 
@@ -406,9 +409,18 @@ INT CALLBACK DlgProc(HWND hwndlg, UINT msgID, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
+//關於介面呼叫
 afx_msg void WOS_Dlg::ABOUT()
 {
 	WOS_AboutDlg* AboutPdlg = new WOS_AboutDlg;
 	AboutPdlg->Create(IDD_ABOUT);
 	AboutPdlg->ShowWindow(SW_SHOW);
+}
+
+//說明介面呼叫
+afx_msg void WOS_Dlg::ILLUSTRATE()
+{
+	WOS_IllustrateDlg* IllustratePdlg = new WOS_IllustrateDlg;
+	IllustratePdlg->Create(IDD_ILLUSTRATE_Main);
+	IllustratePdlg->ShowWindow(SW_SHOW);
 }

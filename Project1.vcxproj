@@ -27,6 +27,7 @@
     <ClInclude Include="WOS_AboutDlg.h" />
     <ClInclude Include="WOS_App.h" />
     <ClInclude Include="WOS_Dlg.h" />
+    <ClInclude Include="WOS_IllustrateDlg.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buttons_Data.cpp" />
@@ -34,6 +35,7 @@
     <ClCompile Include="WOS_AboutDlg.cpp" />
     <ClCompile Include="WOS_App.cpp" />
     <ClCompile Include="WOS_Dlg.cpp" />
+    <ClCompile Include="WOS_IllustrateDlg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

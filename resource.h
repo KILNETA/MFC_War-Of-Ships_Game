@@ -5,7 +5,10 @@
 #define IDD_GAME_WINDOW                 101
 #define IDR_MENU                        103
 #define IDD_ABOUT                       104
-#define IDB_BITMAP1                     113
+#define IDD_ILLUSTRATE_Main             110
+#define IDD_ILLUSTRATE_Main_page1       111
+#define IDD_ILLUSTRATE_Main_page2       112
+#define IDD_ILLUSTRATE_Main_page3       113
 #define IDC_ENEMY_A1                    1000
 #define IDC_ENEMY_A2                    1001
 #define IDC_ENEMY_A3                    1002
@@ -251,6 +254,7 @@
 #define IDC_MY_kill                     30203
 #define ID_40001                        40001
 #define IDM_ABOUT                       40002
+#define IDM_ILLUSTRATE                  40003
 #define IDC_Github_Head                 50000
 #define IDC_STATIC_Github               50001
 #define IDC_About_text1                 50002
@@ -258,15 +262,28 @@
 #define IDC_About_text3                 50004
 #define IDC_MFCLINK1                    50005
 #define IDC_About_text4                 50006
-#define IDC_About_text5                 50008
+#define IDC_About_text5                 50007
+#define IDB_BITMAP1                     50008
+#define IDC_ill_text1                   51000
+#define IDC_ill_text2                   51001
+#define IDC_ill_photo1                  51002
+#define IDC_ill_text3                   51003
+#define IDC_ill_botton1_2               51004
+#define IDC_ill_botton1_1               51005
+#define IDC_ill_text4                   51008
+#define IDC_ill_text5                   51009
+#define IDC_ill_text6                   51010
+#define IDC_ill_photo2                  51011
+#define IDC_ill_text7                   51012
+#define IDC_ill_text8                   51013
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        115
-#define _APS_NEXT_COMMAND_VALUE         40003
-#define _APS_NEXT_CONTROL_VALUE         1127
+#define _APS_NEXT_RESOURCE_VALUE        119
+#define _APS_NEXT_COMMAND_VALUE         40006
+#define _APS_NEXT_CONTROL_VALUE         1142
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
