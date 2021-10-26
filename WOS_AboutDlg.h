@@ -7,11 +7,17 @@ using namespace std;
 
 class WOS_AboutDlg : public CDialog
 {
+    enum {
+        IDD = IDD_ABOUT,
+    };
+public://公有
+    WOS_AboutDlg(CWnd* pParentWnd = NULL);
+    ~WOS_AboutDlg();
+
 private: //私有
     //CHyperLink m_btnLink;
     CRect m_rect;
 public://公有
-
     //視窗產生後第一次介面設置
     virtual BOOL OnInitDialog();
 

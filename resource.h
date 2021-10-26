@@ -9,6 +9,8 @@
 #define IDD_ILLUSTRATE_Main_page1       111
 #define IDD_ILLUSTRATE_Main_page2       112
 #define IDD_ILLUSTRATE_Main_page3       113
+#define IDD_REPLAY                      114
+#define IDD_WARNING                     115
 #define IDC_ENEMY_A1                    1000
 #define IDC_ENEMY_A2                    1001
 #define IDC_ENEMY_A3                    1002
@@ -276,14 +278,17 @@
 #define IDC_ill_photo2                  51011
 #define IDC_ill_text7                   51012
 #define IDC_ill_text8                   51013
+#define IDC_Exit                        52001
+#define IDC_Replay                      52002
+#define IDC_WarningText                 53001
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        119
+#define _APS_NEXT_RESOURCE_VALUE        123
 #define _APS_NEXT_COMMAND_VALUE         40006
-#define _APS_NEXT_CONTROL_VALUE         1142
+#define _APS_NEXT_CONTROL_VALUE         1146
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

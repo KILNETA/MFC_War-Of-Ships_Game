@@ -9,6 +9,10 @@
 ///                     private    Function
 ///////////////////////////////////////////////////////////////////////////
 
+void WOS_Dlg::WarningWindow(CString test){
+	WOS_WarningDlg WarningPdlg(test);
+}
+
 //轉換選擇 down
 void WOS_Dlg::ReplaceChoose(UINT uId){
 	if (this->choose != NULL){
@@ -25,12 +29,10 @@ void WOS_Dlg::ReplaceChoose(UINT uId){
 void WOS_Dlg::PlaceShip(UINT uId, int direction, int _choose, vector<WarShips>& warShips, vector<Buttons_Data>& block) {
 	if ((uId % (10 * direction)) + (warShips[_choose % 10].GetCoordinate_Size() * direction) < (10*direction)+(1* direction)) {
 		//未超出格子
-		for (int n = 0; n < warShips[_choose % 10].GetCoordinate_Size(); n++)
-		{//檢查中間有無船隻阻擋
+		for (int n = 0; n < warShips[_choose % 10].GetCoordinate_Size(); n++){//檢查中間有無船隻阻擋
 			if (block[(uId % 1000) + (n * direction)].GiveShipID() != NULL) {
-				if (!this->gameStart){
-					AfxMessageBox(_T("撞船了"));
-				}
+				if (!this->gameStart)
+					WOS_Dlg::WarningWindow("戰艦位置重疊");
 				return;
 		}	}
 		//把該船所站之格子寫入參數 /並將船艦佔有該格的資料寫入資料中
@@ -41,13 +43,13 @@ void WOS_Dlg::PlaceShip(UINT uId, int direction, int _choose, vector<WarShips>& 
 			warShips[_choose % 10].setCoordinate(n, uId + (n * direction));
 		}
 		warShips[_choose % 10].setPlace(true);
-		if (!this->gameStart) {
+		if (!this->gameStart)
 			this->choose = NULL; //把當前選擇清空
-		}
-	}else {//超出格子
-		if (!this->gameStart) {
-			AfxMessageBox(_T("位置不足"));
-}	}	}
+	}
+	else {//超出格子
+		if (!this->gameStart)
+			WOS_Dlg::WarningWindow("位置不足");
+}	}
 
 //選擇與把船拿走 down
 void WOS_Dlg::ChooseAndTakeback(UINT uId , vector<WarShips>& warShips, vector<Buttons_Data>& block)
@@ -55,9 +57,8 @@ void WOS_Dlg::ChooseAndTakeback(UINT uId , vector<WarShips>& warShips, vector<Bu
 	//該格所在之艦船ID
 	int shipID = block[uId % 1000].GiveShipID();
 	//呼叫替換選擇function  //重新選擇船艦
-	if (!this->gameStart) {
+	if (!this->gameStart)
 		WOS_Dlg::ReplaceChoose(shipID);
-	}
 
 	//把該船所站之格子還原參數 /並將船艦佔有該格的資料去除
 	for (int n = 0; n < warShips[shipID % 10].GetCoordinate_Size(); n++){
@@ -74,11 +75,10 @@ void WOS_Dlg::ChooseAndTakeback(UINT uId , vector<WarShips>& warShips, vector<Bu
 //把船放在該位置 down
 void WOS_Dlg::SetChooseInCoordinate(UINT uId)
 {
-	if (this->direction) {//水平
+	if (this->direction) //水平
 		WOS_Dlg::PlaceShip(uId, 1,this->choose, this->MyWarShips, this->MyBlock);
-	}else {//垂直
+	else //垂直
 		WOS_Dlg::PlaceShip(uId, 10, this->choose, this->MyWarShips, this->MyBlock);
-	}
 	return;
 }
 
@@ -94,9 +94,7 @@ void WOS_Dlg::PlaceEnemyShips()
 			int aiChoose = this->EnemyWarShips[shipsNum].GetShipID();
 
 			WOS_Dlg::PlaceShip(aiUId, aiDirection, aiChoose, EnemyWarShips, EnemyBlock);
-		}
-	}
-}
+}	}	}
 
 
 
@@ -110,11 +108,11 @@ int WOS_Dlg::Fire(UINT uId, vector<WarShips>& warShips, vector<Buttons_Data>& bl
 		GetDlgItem(shootStatic)->SetWindowText(L"擊中" + warShips[block[uId % 100].GiveShipID() % 10].GetShipName() +
 																						 L"  "+ block[uId % 100].GetButtonsName());
 		//檢查船隻沉沒
-		if (WOS_Dlg::CheckShipDied(block[uId % 100].GiveShipID(), warShips, killStatic)){
+		if (WOS_Dlg::CheckShipDied(block[uId % 100].GiveShipID(), warShips, killStatic))
 			return 1; //回報擊中+已擊沉
-		}else{
+		else
 			return 2; //回報擊中+未擊沉
-	}	}
+	}
 	else {//該處沒有船
 		//((CButton*)GetDlgItem(uId))->SetWindowText(_T("。"));//設置落彈標示
 
@@ -127,11 +125,10 @@ int WOS_Dlg::Fire(UINT uId, vector<WarShips>& warShips, vector<Buttons_Data>& bl
 void WOS_Dlg::HitShip(UINT uId, int shipID, vector<WarShips>& warShips)
 {
 	//將該船的座標紀錄刪除
-	for(int n = 0; n < warShips[shipID % 10].GetCoordinate_Size(); n++)
-	{
-		if (warShips[shipID % 10].GetCoordinate(n)== uId){
+	for(int n = 0; n < warShips[shipID % 10].GetCoordinate_Size(); n++){
+		if (warShips[shipID % 10].GetCoordinate(n)== uId)
 			warShips[shipID % 10].setCoordinate(n,NULL);
-}	}	}
+}	}
 
 //檢查船隻沉沒 down
 bool WOS_Dlg::CheckShipDied(int shipID, vector<WarShips>& warShips, int killStatic)
@@ -269,6 +266,46 @@ bool WOS_Dlg::CheckGameOver()
 	return false;
 }
 
+//重置遊戲
+void WOS_Dlg::ReloadGame()
+{
+	((CButton*)GetDlgItem(IDC_GAME_START))->EnableWindow(TRUE);
+	((CButton*)GetDlgItem(IDC_ENEMY_shoot))->SetWindowText(L"");
+	((CButton*)GetDlgItem(IDC_ENEMY_kill))->SetWindowText(L"");
+	((CButton*)GetDlgItem(IDC_MY_shoot))->SetWindowText(L"");
+	((CButton*)GetDlgItem(IDC_MY_kill))->SetWindowText(L"");
+	this->gameStart = false;//遊戲開始
+	this->choose = NULL;//當前選擇
+
+	for (int nID = 1100; nID <= 1104; nID++)
+		((CButton*)GetDlgItem(nID))->EnableWindow(TRUE);
+	for (int nID = 2100; nID <= 2104; nID++)
+		((CButton*)GetDlgItem(nID))->EnableWindow(TRUE);
+
+	for (int nID = 1000; nID <= 1099; nID++){
+		((CButton*)GetDlgItem(nID))->EnableWindow(FALSE);
+		((CButton*)GetDlgItem(nID))->SetWindowText(L"");
+	}
+	for (int nID = 2000; nID <= 2099; nID++) {
+		((CButton*)GetDlgItem(nID))->EnableWindow(TRUE);
+		((CButton*)GetDlgItem(nID))->SetWindowText(L"");
+	}
+
+	int warShipsSet[5] = { 5,4,3,3,2 };
+	for (int n = 0; n < 5; n++) {
+		this->MyWarShips[n]= *new WarShips(2100 + n, warShipsSet[n]);
+		this->EnemyWarShips[n] = *new WarShips(1100 + n, warShipsSet[n]);
+	}
+	for (int n = 0; n < 100; n++) {
+		this->MyBlock[n] = *new Buttons_Data(2000 + n);
+		this->EnemyBlock[n] = *new Buttons_Data(1000 + n);
+}	}
+
+//關閉主介面
+void WOS_Dlg::Destroy_Window(){
+	DestroyWindow();
+}
+
 ///////////////////////////////////////////////////////////////////////////
 ///                     Public    Function
 ///////////////////////////////////////////////////////////////////////////
@@ -296,16 +333,14 @@ BOOL WOS_Dlg::OnInitDialog()
 //重寫 鍵盤按鍵的反應
 BOOL WOS_Dlg::PreTranslateMessage(MSG* pMsg)
 {
-	if (pMsg->message == WM_KEYDOWN)
-	{
+	if (pMsg->message == WM_KEYDOWN){
 		if (pMsg->wParam ==114 || pMsg->wParam == 82 ){ //按下R/r鍵
 			this->direction ? GetDlgItem(IDC_Direction)->SetWindowText(L"朝向(&R): 垂直") : GetDlgItem(IDC_Direction)->SetWindowText(L"朝向(&R): 水平");
 			this->direction = this->direction ? false  : true;
 			return TRUE;
 		}
 		if (pMsg->wParam == 116 || pMsg->wParam == 84) { //按下T/t鍵
-			if (choose != NULL)
-			{
+			if (choose != NULL){
 				((CButton*)GetDlgItem(this->choose))->EnableWindow(TRUE);
 				this->choose = NULL;
 				return TRUE;
@@ -317,19 +352,19 @@ BOOL WOS_Dlg::PreTranslateMessage(MSG* pMsg)
 BEGIN_MESSAGE_MAP(WOS_Dlg, CDialog)
 
 	//當敵方陣營海域方塊被按下
-	ON_COMMAND_RANGE(IDC_ENEMY_A1, IDC_ENEMY_J10, ENEMY_ButtonClicked)
+	ON_COMMAND_RANGE(IDC_ENEMY_A1, IDC_ENEMY_J10, WOS_Dlg::ENEMY_ButtonClicked)
 	//當我方陣營海域方塊被按下
-	ON_COMMAND_RANGE(IDC_MY_A1, IDC_MY_J10, MY_ButtonClicked)
+	ON_COMMAND_RANGE(IDC_MY_A1, IDC_MY_J10, WOS_Dlg::MY_ButtonClicked)
 	//當我方艦船方塊被選擇
-	ON_COMMAND_RANGE(IDC_MY_CV, IDC_MY_PB, MY_WarShipClicked)
+	ON_COMMAND_RANGE(IDC_MY_CV, IDC_MY_PB, WOS_Dlg::MY_WarShipClicked)
 	//當遊戲開始被按下
-	ON_COMMAND( IDC_GAME_START, Game_Start)
+	ON_COMMAND( IDC_GAME_START, WOS_Dlg::Game_Start)
 	//右上角(X)關閉窗口
-	ON_COMMAND(WM_DESTROY, Exit_Window)
+	ON_COMMAND(WM_DESTROY, WOS_Dlg::Exit_Window)
 	//關於介面呼叫
-	ON_COMMAND(IDM_ABOUT, ABOUT)
+	ON_COMMAND(IDM_ABOUT, WOS_Dlg::ABOUT)
 	//說明介面呼叫
-	ON_COMMAND(IDM_ILLUSTRATE, ILLUSTRATE)
+	ON_COMMAND(IDM_ILLUSTRATE, WOS_Dlg::ILLUSTRATE)
 
 END_MESSAGE_MAP()
 
@@ -378,7 +413,7 @@ afx_msg void WOS_Dlg::Game_Start()
 {
 	for (int n = 0; n<5; n++) {
 		if (!this->MyWarShips[n].GetPlace()) {
-			AfxMessageBox(L"艦船未佈署完畢");
+			WOS_Dlg::WarningWindow("戰艦未佈署完畢");
 			return;
 	}	}
 
@@ -386,41 +421,122 @@ afx_msg void WOS_Dlg::Game_Start()
 	this->gameStart = true;
 	WOS_Dlg::PlaceEnemyShips();
 
-	for (int nID = 2100; nID <= 2104; nID++) {
+	for (int nID = 2100; nID <= 2104; nID++)
 		((CButton*)GetDlgItem(nID))->EnableWindow(TRUE);
-	}
-	for(int nID = 1000; nID <= 1099; nID++){
+	for(int nID = 1000; nID <= 1099; nID++)
 		((CButton*)GetDlgItem(nID))->EnableWindow(TRUE);
-}	}
+}
 
 //右上角(X)關閉窗口
-afx_msg void WOS_Dlg::Exit_Window()
-{
-	if (this->gameStart){
-		if (MessageBox(L"確定要退出遊戲嗎",L"War Of Ships", MB_OKCANCEL)==1){
-			DestroyWindow();
-	}	}
-	else {
-		DestroyWindow();
-}	}
+afx_msg void WOS_Dlg::Exit_Window(){
+	if (this->gameStart)
+		WOS_Dlg::AbandonGame();
+	else
+		WOS_Dlg::Destroy_Window();
+}
 
-INT CALLBACK DlgProc(HWND hwndlg, UINT msgID, WPARAM wParam, LPARAM lParam)
-{
-	return FALSE;
+//放棄該局遊戲
+afx_msg void WOS_Dlg::AbandonGame(){
+	if (MessageBox(L"確定要放棄該局遊戲嗎", L"War Of Ships", MB_OKCANCEL) == 1) 
+		WOS_GameEndDlg GameEndPdlg;
 }
 
 //關於介面呼叫
-afx_msg void WOS_Dlg::ABOUT()
-{
-	WOS_AboutDlg* AboutPdlg = new WOS_AboutDlg;
-	AboutPdlg->Create(IDD_ABOUT);
-	AboutPdlg->ShowWindow(SW_SHOW);
+afx_msg void WOS_Dlg::ABOUT(){
+	WOS_AboutDlg AboutPdlg;
 }
 
 //說明介面呼叫
-afx_msg void WOS_Dlg::ILLUSTRATE()
+afx_msg void WOS_Dlg::ILLUSTRATE(){
+	WOS_IllustrateDlg IllustratePdlg;
+}
+
+
+/////////////////////////////////////////////////////////////////////////
+//                                   WOS_GameEndDlg class
+/////////////////////////////////////////////////////////////////////////
+
+
+WOS_GameEndDlg::WOS_GameEndDlg(CWnd* pParentWnd) :CDialog(WOS_GameEndDlg::IDD, pParentWnd)
 {
-	WOS_IllustrateDlg* IllustratePdlg = new WOS_IllustrateDlg;
-	IllustratePdlg->Create(IDD_ILLUSTRATE_Main);
-	IllustratePdlg->ShowWindow(SW_SHOW);
+	DoModal();
+}
+WOS_GameEndDlg::~WOS_GameEndDlg(void)
+{}
+
+//重寫 視窗產生後第一次介面設置
+BOOL WOS_GameEndDlg::OnInitDialog()
+{
+	/*顯示傳入勝利值與參數*/
+	return FALSE;
+}
+
+BEGIN_MESSAGE_MAP(WOS_GameEndDlg, CDialog)
+
+	//右上角(X)關閉窗口
+	ON_COMMAND(WM_DESTROY, WOS_GameEndDlg::Exit_Window)
+	ON_COMMAND(IDC_Exit, WOS_GameEndDlg::Exit_Application)
+	ON_COMMAND(IDC_Replay, WOS_GameEndDlg::Exit_Replay)
+
+END_MESSAGE_MAP()
+
+//右上角(X)關閉窗口
+afx_msg void WOS_GameEndDlg::Exit_Window(){
+	WOS_GameEndDlg::OnCancel();
+}
+
+//離開程式
+afx_msg void WOS_GameEndDlg::Exit_Application(){
+	((WOS_Dlg*)GetParent())->Destroy_Window();
+}
+
+//重開一局
+afx_msg void WOS_GameEndDlg::Exit_Replay() {
+	((WOS_Dlg*)GetParent())->ReloadGame();
+	WOS_GameEndDlg::OnCancel();
+}
+
+
+/////////////////////////////////////////////////////////////////////////
+//                                   WOS_WarningDlg class
+/////////////////////////////////////////////////////////////////////////
+
+void WOS_WarningDlg::ChangeText(CString text){
+	((CButton*)GetDlgItem(IDC_WarningText))->SetWindowText(text);
+}
+
+afx_msg void WOS_WarningDlg::Exit_Window() {
+	WOS_WarningDlg::OnCancel();
+}
+
+///                     private    Function
+
+//操作介面信息響應 WOS_Dlg
+BEGIN_MESSAGE_MAP(WOS_WarningDlg, CDialog)
+
+	//有點擊 就退出
+	ON_WM_LBUTTONDOWN(WOS_WarningDlg::Exit_Window)
+
+END_MESSAGE_MAP()
+
+WOS_WarningDlg::WOS_WarningDlg(CString text,CWnd* pParentWnd) :CDialog(WOS_WarningDlg::IDD, pParentWnd){
+	this->text =text;
+	WOS_WarningDlg::DoModal(); //顯示模式視窗
+}
+WOS_WarningDlg::~WOS_WarningDlg(void)
+{}
+
+//重寫 視窗產生後第一次介面設置
+BOOL WOS_WarningDlg::OnInitDialog(){
+	WOS_WarningDlg::ChangeText(this->text);
+	return FALSE;
+}
+
+//重寫 按鍵感測
+BOOL WOS_WarningDlg::PreTranslateMessage(MSG* pMsg)
+{
+	Sleep(500);
+	if (pMsg->message == WM_KEYDOWN || pMsg->wParam)
+		WOS_WarningDlg::OnCancel();
+	return CDialog::PreTranslateMessage(pMsg);
 }

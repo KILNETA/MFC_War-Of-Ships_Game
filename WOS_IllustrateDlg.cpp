@@ -12,7 +12,7 @@ BOOL IllustrateDlg_page1::OnInitDialog()
 	pWnd->SetBitmap(hBmp);
 	pWnd->SetWindowPos(NULL, 0, 0, 160, 174, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER);
 
-	return TRUE; //回傳TRUE
+	return TRUE; //做一次
 }
 //視窗產生後第一次介面設置 IllustrateDlg_page2
 BOOL IllustrateDlg_page2::OnInitDialog()
@@ -25,13 +25,24 @@ BOOL IllustrateDlg_page2::OnInitDialog()
 	pWnd->SetBitmap(hBmp);
 	pWnd->SetWindowPos(NULL, 0, 0, 173, 145, SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER);
 
-	return TRUE; //回傳TRUE
+	return TRUE; //做一次
 }
 //視窗產生後第一次介面設置 IllustrateDlg_page3
 BOOL IllustrateDlg_page3::OnInitDialog()
 {
-	return TRUE; //回傳TRUE
+	return TRUE; //做一次
 }
+
+/////////////////////////////////////////////////////////////////////////
+//                                   WOS_IllustrateDlg class
+/////////////////////////////////////////////////////////////////////////
+
+WOS_IllustrateDlg::WOS_IllustrateDlg(CWnd* pParentWnd) :CDialog(WOS_IllustrateDlg::IDD, pParentWnd){
+	DoModal();
+}
+WOS_IllustrateDlg::~WOS_IllustrateDlg(void)
+{}
+
 //視窗產生後第一次介面設置 IllustrateDlg Main 
 BOOL WOS_IllustrateDlg::OnInitDialog()
 {
@@ -41,7 +52,7 @@ BOOL WOS_IllustrateDlg::OnInitDialog()
 
 	m_p1.ShowWindow(SW_SHOW);
 
-	return TRUE; //回傳TRUE
+	return TRUE; //做一次
 }
 
 void WOS_IllustrateDlg::DestroyPage()
@@ -79,17 +90,16 @@ void WOS_IllustrateDlg::TurnPage()
 BEGIN_MESSAGE_MAP(WOS_IllustrateDlg, CDialog)
 
 	//右上角(X)關閉窗口
-	ON_COMMAND(WM_DESTROY, Exit_Window)
-	ON_COMMAND(IDC_ill_botton1_1, PreviousPage)
-	ON_COMMAND(IDC_ill_botton1_2, NextPage)
+	ON_COMMAND(WM_DESTROY, WOS_IllustrateDlg::Exit_Window)
+	ON_COMMAND(IDC_ill_botton1_1, WOS_IllustrateDlg::PreviousPage)
+	ON_COMMAND(IDC_ill_botton1_2, WOS_IllustrateDlg::NextPage)
 
 END_MESSAGE_MAP()
 
 //右上角(X)關閉窗口
 afx_msg void WOS_IllustrateDlg::Exit_Window()
 {
-	DestroyWindow();
-	delete this;
+	OnCancel();
 }
 
 afx_msg void WOS_IllustrateDlg::PreviousPage()

@@ -8,8 +8,14 @@
 
 using namespace std;
 
+
+/////////////////////////////////////////////////////////////////////////
+//                                   WOS_Dlg class
+/////////////////////////////////////////////////////////////////////////
 class WOS_Dlg : public CDialog
 {
+	friend class WOS_GameEndDlg;
+
 private: //私有
 
 	//目錄列表宣告
@@ -21,6 +27,9 @@ private: //私有
 	vector<Buttons_Data> EnemyBlock; //敵方海格
 	int choose=NULL;//當前選擇
 	bool direction = true;
+
+	//警告視窗呼叫
+	void WarningWindow(CString test);
 
 	//轉換選擇
 	void ReplaceChoose(UINT uId);
@@ -49,7 +58,10 @@ private: //私有
 	bool CheckGameOver();
 
 	//重置遊戲
-	void reloadGame();
+	void ReloadGame();
+
+	//關閉主介面
+	void Destroy_Window();
 	
 public://公有
 
@@ -71,10 +83,76 @@ public://公有
 	afx_msg void Game_Start();
 	//右上角(X)關閉窗口
 	afx_msg void Exit_Window();
+	//放棄該局遊戲
+	afx_msg void AbandonGame();
 
 
 	//關於介面呼叫
 	afx_msg void ABOUT();
 	//說明介面呼叫
 	afx_msg void ILLUSTRATE();
+};
+
+
+
+/////////////////////////////////////////////////////////////////////////
+//                                   WOS_GameEndDlg class
+/////////////////////////////////////////////////////////////////////////
+class WOS_GameEndDlg : public CDialog
+{
+	enum {
+		IDD = IDD_REPLAY,
+	};
+public://公有
+	WOS_GameEndDlg(CWnd* pParentWnd = NULL);
+	~WOS_GameEndDlg();
+
+private: //私有
+
+public://公有
+
+	//操作介面信息響應
+	DECLARE_MESSAGE_MAP()
+
+	//重寫 視窗產生後第一次介面設置
+	virtual BOOL OnInitDialog();
+
+	//右上角(X)關閉窗口
+	afx_msg void Exit_Window();
+	//離開程式
+	afx_msg void Exit_Application();
+	//重開一局
+	afx_msg void Exit_Replay();
+};
+
+
+
+/////////////////////////////////////////////////////////////////////////
+//                                   WOS_WarningDlg class
+/////////////////////////////////////////////////////////////////////////
+class WOS_WarningDlg : public CDialog
+{
+	friend class WOS_Dlg;
+
+	enum {
+		IDD = IDD_WARNING,
+	};
+public://公有
+	WOS_WarningDlg(CString text,CWnd* pParentWnd = NULL);
+	~WOS_WarningDlg();
+
+private: //私有
+	CString text;
+	//改變內容文字
+	void ChangeText(CString text);
+	//關閉視窗
+	afx_msg void Exit_Window();
+
+public://公有
+	//操作介面信息響應
+	DECLARE_MESSAGE_MAP()
+	//重寫 視窗產生後第一次介面設置
+	virtual BOOL OnInitDialog();
+	//重寫 按鍵感測
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };

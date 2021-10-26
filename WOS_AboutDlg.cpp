@@ -2,6 +2,12 @@
 #include<atlimage.h>
 #include<Winuser.h>      
 
+WOS_AboutDlg::WOS_AboutDlg(CWnd* pParentWnd) :CDialog(WOS_AboutDlg::IDD, pParentWnd){
+	DoModal();
+}
+WOS_AboutDlg::~WOS_AboutDlg(void)
+{}
+
 //視窗產生後第一次介面設置
 BOOL WOS_AboutDlg::OnInitDialog()
 {
@@ -17,7 +23,7 @@ BOOL WOS_AboutDlg::OnInitDialog()
 	GetDlgItem(IDC_About_text5)->GetWindowRect(&m_rect);
 	ScreenToClient(&m_rect);
 
-	return FALSE; //回傳TRUE
+	return TRUE; //做一次
 }
 
 /////////////////////
@@ -27,7 +33,7 @@ BEGIN_MESSAGE_MAP(WOS_AboutDlg, CDialog)
 	ON_WM_LBUTTONUP()
 	ON_WM_CTLCOLOR()
 	//右上角(X)關閉窗口
-	ON_COMMAND(WM_DESTROY, Exit_Window)
+	ON_COMMAND(WM_DESTROY, WOS_AboutDlg::Exit_Window)
 
 END_MESSAGE_MAP()
 
@@ -68,6 +74,5 @@ HBRUSH WOS_AboutDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 //右上角(X)關閉窗口
 afx_msg void WOS_AboutDlg::Exit_Window()
 {
-	DestroyWindow();
-	delete this;
+	OnCancel();
 }
