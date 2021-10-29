@@ -222,7 +222,6 @@
 #define IDC_MY_DD                       2103
 #define IDC_MY_PB                       2104
 #define IDC_GAME_START                  3001
-#define IDC_BUTTON2                     3002
 #define IDC_MY_STATIC                   30001
 #define IDC_ENEMY_STATIC                30002
 #define IDC_ENEMY_Ocean                 30003
@@ -280,6 +279,37 @@
 #define IDC_ill_text8                   51013
 #define IDC_Exit                        52001
 #define IDC_Replay                      52002
+
+#define IDC_End_EnemyStatic             52100
+#define IDC_End_EnemyText               52101
+
+#define IDC_End_EnemyCV                 52110
+#define IDC_End_EnemyBB                 52111
+#define IDC_End_EnemyCL                 52112
+#define IDC_End_EnemyDD                 52113
+#define IDC_End_EnemyPB                 52114
+
+#define IDC_End_EnemyNum1               52120
+#define IDC_End_EnemyNum2               52121
+#define IDC_End_EnemyNum3               52122
+#define IDC_End_EnemyNum4               52123
+
+#define IDC_End_MyStatic                52200
+#define IDC_End_MyText                  52201
+
+#define IDC_End_MyCV                    52210
+#define IDC_End_MyBB                    52211
+#define IDC_End_MyCL                    52212
+#define IDC_End_MyDD                    52213
+#define IDC_End_MyPB                    52214
+
+#define IDC_End_MyNum1                  52220
+#define IDC_End_MyNum2                  52221
+#define IDC_End_MyNum3                  52222
+#define IDC_End_MyNum4                  52223
+
+#define IDC_WinText                     52300
+
 #define IDC_WarningText                 53001
 
 // Next default values for new objects
@@ -288,7 +318,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        123
 #define _APS_NEXT_COMMAND_VALUE         40006
-#define _APS_NEXT_CONTROL_VALUE         1146
+#define _APS_NEXT_CONTROL_VALUE         1169
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -350,13 +350,36 @@ BEGIN
     LTEXT           "^ 船首基準點 釋例",IDC_ill_text6,228,132,69,8
 END
 
-IDD_REPLAY DIALOGEX 0, 0, 309, 176
+IDD_REPLAY DIALOGEX 0, 0, 165, 188
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Dialog"
+CAPTION "War Of Ships 計分板"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    PUSHBUTTON      "開新一局",IDC_Replay,58,115,50,14
-    PUSHBUTTON      "離開",IDC_Exit,142,115,50,14
+    PUSHBUTTON      "開新一局",IDC_Replay,6,168,50,14
+    PUSHBUTTON      "離開",IDC_Exit,108,168,50,14
+    GROUPBOX        "我方",IDC_End_MyStatic,6,6,72,144
+    LTEXT           "發射數量：\n\n發射擊中：\n\n擊沉戰艦：\n\n沉沒戰艦：\n",IDC_End_MyText,18,24,42,60
+    LTEXT           "",IDC_End_MyNum1,60,24,8,8
+    LTEXT           "",IDC_End_MyNum2,60,40,8,8
+    LTEXT           "",IDC_End_MyNum3,60,56,8,8
+    LTEXT           "",IDC_End_MyNum4,60,72,8,8
+    PUSHBUTTON      "航空母艦",IDC_End_MyCV,12,84,60,12
+    PUSHBUTTON      "戰列艦",IDC_End_MyBB,12,96,60,12
+    PUSHBUTTON      "巡洋艦",IDC_End_MyCL,12,108,60,12
+    PUSHBUTTON      "驅逐艦",IDC_End_MyDD,12,120,60,12
+    PUSHBUTTON      "巡邏艦",IDC_End_MyPB,12,132,60,12
+    GROUPBOX        "敵方",IDC_End_EnemyStatic,84,6,72,144,0,WS_EX_RIGHT
+    LTEXT           "發射數量：\n\n發射擊中：\n\n擊沉戰艦：\n\n沉沒戰艦：\n",IDC_End_EnemyText,96,24,42,60
+    LTEXT           "",IDC_End_EnemyNum1,138,24,8,8
+    LTEXT           "",IDC_End_EnemyNum2,138,40,8,8
+    LTEXT           "",IDC_End_EnemyNum3,138,56,8,8
+    LTEXT           "",IDC_End_EnemyNum4,138,72,8,8
+    PUSHBUTTON      "航空母艦",IDC_End_EnemyCV,90,84,60,12
+    PUSHBUTTON      "戰列艦",IDC_End_EnemyBB,90,96,60,12
+    PUSHBUTTON      "巡洋艦",IDC_End_EnemyCL,90,108,60,12
+    PUSHBUTTON      "驅逐艦",IDC_End_EnemyDD,90,120,60,12
+    PUSHBUTTON      "巡邏艦",IDC_End_EnemyPB,90,132,60,12
+    CTEXT           "",IDC_WinText,6,150,150,15,SS_CENTERIMAGE
 END
 
 IDD_WARNING DIALOGEX 0, 0, 117, 32
@@ -427,9 +450,10 @@ BEGIN
     IDD_REPLAY, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 302
+        RIGHTMARGIN, 158
+        VERTGUIDE, 60
         TOPMARGIN, 7
-        BOTTOMMARGIN, 169
+        BOTTOMMARGIN, 181
     END
 
     IDD_WARNING, DIALOG

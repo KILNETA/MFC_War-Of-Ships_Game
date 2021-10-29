@@ -20,13 +20,18 @@ private: //私有
 
 	//目錄列表宣告
 	CMenu m_Menu;//目錄
-	bool gameStart=false;//遊戲開始
+	bool gameStart = false;//遊戲開始
 	vector<WarShips> MyWarShips;//我艦
 	vector<WarShips> EnemyWarShips;//敵艦
 	vector<Buttons_Data> MyBlock;//我方海格
 	vector<Buttons_Data> EnemyBlock; //敵方海格
-	int choose=NULL;//當前選擇
-	bool direction = true;
+	int choose = NULL;//當前選擇
+	bool direction = true;//方向
+	//記分板
+	int winner = 0 ;
+	vector<int> fires_Number = { 0,0 };
+	vector<int> hit_Number = { 0,0 };
+
 
 	//警告視窗呼叫
 	void WarningWindow(CString test);
@@ -55,7 +60,7 @@ private: //私有
 	void EnemyAttack();
 
 	//檢查遊戲是否結束
-	bool CheckGameOver();
+	int CheckGameOver();
 
 	//重置遊戲
 	void ReloadGame();
@@ -104,11 +109,20 @@ class WOS_GameEndDlg : public CDialog
 		IDD = IDD_REPLAY,
 	};
 public://公有
-	WOS_GameEndDlg(CWnd* pParentWnd = NULL);
+	WOS_GameEndDlg(int winner, vector<int> &fires_Number, vector<int> &hit_Number,
+		vector<WarShips>&MyWarShips, vector<WarShips>& EnemyWarShips,
+		CWnd* pParentWnd = NULL);
 	~WOS_GameEndDlg();
 
 private: //私有
+	//記分板
+	int winner = 0;
+	vector<int> fires_Number ;
+	vector<int> hit_Number ;
+	vector<WarShips> MyWarShips;//我艦
+	vector<WarShips> EnemyWarShips;//敵艦
 
+	void Scoreboard_Display();
 public://公有
 
 	//操作介面信息響應
