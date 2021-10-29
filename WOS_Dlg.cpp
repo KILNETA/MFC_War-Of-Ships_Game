@@ -153,7 +153,7 @@ bool WOS_Dlg::CheckShipDied(int shipID, vector<WarShips>& warShips, int killStat
 bool WOS_Dlg::RecordLastAttack(int aiUId, int &aiLastAttack, bool& nextFire , int &aiDirection, int mode)
 {
 	((CButton*)GetDlgItem(aiUId))->EnableWindow(FALSE);
-	switch (WOS_Dlg::Fire(aiUId, this->MyWarShips, this->MyBlock, IDC_ENEMY_shoot, IDC_MY_kill)) {
+	switch (WOS_Dlg::Fire(aiUId, this->MyWarShips, this->MyBlock, IDC_MY_shoot, IDC_MY_kill)) {
 	case 0: //未擊中
 		return false;
 	case 1:  //回報擊中+已擊沉
@@ -382,7 +382,7 @@ afx_msg void WOS_Dlg::ENEMY_ButtonClicked(UINT uId)
 {
 	this->fires_Number[0] ++; //紀錄我方開火數字
 	((CButton*)GetDlgItem(uId))->EnableWindow(FALSE);
-	if(WOS_Dlg::Fire(uId, this->EnemyWarShips, this->EnemyBlock , IDC_MY_shoot, IDC_ENEMY_kill))
+	if(WOS_Dlg::Fire(uId, this->EnemyWarShips, this->EnemyBlock , IDC_ENEMY_shoot, IDC_ENEMY_kill))
 		this->hit_Number[0]++;//紀錄擊中數;
 
 	if (this->winner = CheckGameOver()){
