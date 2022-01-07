@@ -14,6 +14,7 @@ Since most of the previous programming was based on displaying the program resul
 # learning 
 This project started with a zero foundation, so I used the holidays and after class to learn the architecture of MFC library and Win32 independently.  
 I am very grateful for this series of Chinese tutorial videos. He clearly led the students to understand the source code infrastructure of the MFC library. And do it in practical applications.  
+  
 Tutorial videos : https://www.bilibili.com/video/BV1QA411g7dX?share_source=copy_web  
   
 # Developer
