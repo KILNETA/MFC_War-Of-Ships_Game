@@ -13,8 +13,12 @@ Since most of the previous programming was based on displaying the program resul
 
 # learning 
 This project started with a zero foundation, so I used the holidays and after class to learn the architecture of MFC library and Win32 independently. I am very grateful for this series of Chinese tutorial videos. He clearly led the students to understand the source code infrastructure of the MFC library. And do it in practical applications.
+Tutorial videos : https://www.bilibili.com/video/BV1QA411g7dX?share_source=copy_web
 
 # Developer
 * @KILNETA
 
 # Game interface
+![image](https://user-images.githubusercontent.com/47145154/148564807-4a9704b2-c8b8-4ead-b124-6c5aad0a33bd.png)
+![image](https://user-images.githubusercontent.com/47145154/148564899-c0c2f18a-7019-4c15-8af8-cef5341dac5c.png)
+![image](https://user-images.githubusercontent.com/47145154/148564922-d78fc1c5-b84b-4bf7-87f6-758e1eb6712a.png)
