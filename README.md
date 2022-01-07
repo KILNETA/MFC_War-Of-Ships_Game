@@ -5,6 +5,8 @@ This project will in August 2021 start  and will be completed by the end of Octo
 Programming language : C++(Use MFC_library)  
 language : Chinese(Traditional)  
   
+Download program : https://drive.google.com/file/d/15S18m62IjkZXowLGFlmduSBOJViom6sp/view?usp=sharing  
+  
 # Introduction  
 This is a complete Battleship mini game, which includes an introduction to the game and a perfect AI opponent.  
   
