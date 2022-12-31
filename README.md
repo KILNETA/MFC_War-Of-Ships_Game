@@ -1,5 +1,5 @@
 # War-Of-Ships
-War-Of-Ships is a small game based on a well-known board game (Battleship) and applied to a graphical interface program.  
+《War-Of-Ships》 is a small game based on a well-known board game (Battleship) and applied to a graphical interface program.  
 This project will in August 2021 start  and will be completed by the end of October 2021.  
   
 Programming language : C++(Use MFC_library)  
